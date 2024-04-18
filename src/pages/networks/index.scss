@@ -1,0 +1,26 @@
+.root {
+  display: flex;
+
+  height: 100%;
+  width: 100%;
+
+  padding: 20px;
+}
+
+.optionsCard {
+  align-self: flex-start;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-right: 20px;
+
+  > *:not(:last-child) {
+    margin: 5px 0;
+  }
+}
+
+.dataCard {
+  flex: 1;
+}

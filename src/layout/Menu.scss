@@ -1,0 +1,28 @@
+@use 'sass:color';
+
+.root {
+  background-color: lighten(#fff091, 4%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  height: 8%;
+  width: 100%;
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 8px 12px;
+  transition: .2s linear background-color;
+
+  &:hover {
+    background-color: white;
+  }
+}
+
+.selected {
+  background-color: white;
+}

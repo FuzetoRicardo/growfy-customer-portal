@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": "./src",
+        "jsx": "react",
+        "lib": ["DOM", "ES6"],
+        "module": "ES6",
+        "moduleResolution": "Node",
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "removeComments": true,
+        "strict": true,
+        "paths": {
+            "@/actions/*": ["actions/*"],
+            "@/assets/*": ["assets/*"],
+            "@/components/*": ["components/*"],
+            "@/hooks/*": ["hooks/*"],
+            "@/layout/*": ["layout/*"],
+            "@/pages/*": ["pages/*"],
+            "@/util/*": ["util/*"]
+        },
+        "preserveConstEnums": true,
+        "sourceMap": true
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"]
+}

@@ -1,0 +1,33 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.header {
+  background-color: #fff091;
+  display: flex;
+  align-items: center;
+  height: 12%;
+  width: 100%;
+}
+
+.userDropdown {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.main {
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: scroll;
+}
+
+.loadingCard {
+  align-self: center;
+  margin-top: 20px;
+}

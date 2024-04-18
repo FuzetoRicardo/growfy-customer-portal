@@ -1,0 +1,25 @@
+@import 'util/css/mixins.scss';
+
+html {
+  height: 100vh;
+  width: 100vw;
+}
+
+body {
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+}
+
+:global(#root) {
+  height: 100%;
+  width: 100%;
+}
+
+* {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  @include box-sizing(border-box);
+}
