@@ -1,0 +1,36 @@
+.root {
+  position: relative;
+}
+
+.pinDiv {
+  border-radius: 50%;
+
+  height: 8px;
+  width: 8px;
+
+  position: absolute;
+
+  z-index: 999;
+}
+
+@each $position in ('top', 'bottom', 'left', 'right') {
+  .#{$position} {
+    #{$position}: 0;
+  }
+}
+
+.information {
+  background-color: blue;
+}
+
+.error {
+  background-color: red;
+}
+
+.success {
+  background-color: green;
+}
+
+.warning {
+  background-color: yellow;
+}

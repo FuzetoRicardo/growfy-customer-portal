@@ -21,6 +21,14 @@
   }
 }
 
-.dataCard {
+.notSelected {
+  opacity: .3;
+}
+
+.networkDataCard {
   flex: 1;
+}
+
+.emptyCard {
+  align-self: flex-start;
 }

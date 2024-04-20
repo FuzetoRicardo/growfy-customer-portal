@@ -1,45 +1,73 @@
 import classnames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+
+import { NetworkDataCard } from './NetworkDataCard';
 
 import { IconButton } from 'components/Button/Icon';
 import { Card } from 'components/Card';
+import { Badge } from 'components/Badge';
+
+import useCommonData from 'hooks/useCommonData';
+
+import { getUserNetworkData } from 'actions/userDataActions';
 
 import * as styles from './index.scss';
 
-export type SocialNetworkData = {
-  createdAt: Date;
-  displayName: string;
-  followerCount: number;
-};
-
 export const Networks: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedNetwork, setSelectedNetwork] = useState('');
-  const [socialNetworksData, setSocialNetworksData] = useState<Record<string, SocialNetworkData>>({});
+  const [socialNetworksData, setSocialNetworksData] = useState<Record<string, Model.SocialNetwork>>({});
+  const { portalConfiguration, user } = useCommonData();
 
   const handleSocialMediaSelect = (event: React.MouseEvent<HTMLButtonElement>, socialMediaName: string) => {
     event.stopPropagation();
     setSelectedNetwork(socialMediaName);
   };
 
-  useEffect(() => {}, [selectedNetwork]);
+  const renderedNetworksSideMenu = useMemo(() => (
+    <Card className={classnames(styles.optionsCard)}>
+      {Object.keys(portalConfiguration.socialNetworks).map(networkName => (
+        <Badge type={user.networks.includes(networkName) ? 'success' : 'error'}>
+          <IconButton
+            key={`network-button-${networkName}`}
+            onClick={event => handleSocialMediaSelect(event, networkName)}
+            className={classnames({ [styles.notSelected]: selectedNetwork !== networkName })}
+          >
+            <img src={portalConfiguration.socialNetworks[networkName].logoUrl[32]} />
+          </IconButton>
+        </Badge>
+      )
+    )}
+    </Card>
+  ), [portalConfiguration.socialNetworks, selectedNetwork, user.networks]);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    if (selectedNetwork !== '' && !socialNetworksData[selectedNetwork]) {
+      setIsLoading(true);
+      getUserNetworkData(selectedNetwork, abortController.signal).then(response => {
+        setSocialNetworksData({
+          ...socialNetworksData,
+          [selectedNetwork]: response.data!,
+        });
+        setIsLoading(false);
+      });
+    }
+    return () => abortController.abort();
+  }, [selectedNetwork]);
 
   return (
     <div className={classnames(styles.root)}>
-      <Card className={classnames(styles.optionsCard)}>
-        <IconButton
-          onClick={event => handleSocialMediaSelect(event, 'twitch')}
-        >
-          <img src="https://static.twitchcdn.net/assets/favicon-32-e29e246c157142c94346.png" />
-        </IconButton>
-        <IconButton
-          onClick={event => handleSocialMediaSelect(event, 'youtube')}
-        >
-          <img src="https://www.youtube.com/s/desktop/24644f83/img/favicon_32x32.png" />
-        </IconButton>
-      </Card>
-      <Card className={classnames(styles.dataCard)}>
-        <p>Data</p>
-      </Card>
+      {renderedNetworksSideMenu}
+      <NetworkDataCard
+        data={socialNetworksData[selectedNetwork]}
+        loading={isLoading}
+        selectedNetworkName={selectedNetwork}
+      />
     </div>
   );
 };

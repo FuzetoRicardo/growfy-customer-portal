@@ -10,8 +10,6 @@ import { MyAccount } from 'pages/myaccount';
 import { Networks } from 'pages/networks';
 import { Payments } from 'pages/payments';
 
-import { getAuthenticationStatus } from 'actions/layoutActions';
-
 export const Routes: RouteObject[] = [
   {
     path: '/login',
@@ -20,11 +18,6 @@ export const Routes: RouteObject[] = [
   {
     element: <Layout />,
     id: 'layout',
-    loader: () => {
-      return defer({
-        authorization: getAuthenticationStatus(),
-      });
-    },
     children: [
       {
         path: '/',
