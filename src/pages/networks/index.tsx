@@ -31,9 +31,11 @@ export const Networks: React.FC = () => {
   const renderedNetworksSideMenu = useMemo(() => (
     <Card className={classnames(styles.optionsCard)}>
       {Object.keys(portalConfiguration.socialNetworks).map(networkName => (
-        <Badge type={user.networks.includes(networkName) ? 'success' : 'error'}>
+        <Badge
+          key={`network-button-${networkName}`}
+          type={user.networks.includes(networkName) ? 'success' : 'error'}
+        >
           <IconButton
-            key={`network-button-${networkName}`}
             onClick={event => handleSocialMediaSelect(event, networkName)}
             className={classnames({ [styles.notSelected]: selectedNetwork !== networkName })}
           >

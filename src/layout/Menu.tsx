@@ -14,7 +14,7 @@ export const Menu: React.FC = () => {
         return 1;
       case '/myaccount':
         return 2;
-        case '/payments':
+        case '/revenue':
           return 3;
         case '/networks':
           return 4;
@@ -38,9 +38,9 @@ export const Menu: React.FC = () => {
         className={classnames(styles.button, { [styles.selected]: currentOption === 2 })}
       >My account</button>
       <button
-        onClick={() => navigate('/payments')}
+        onClick={() => navigate('/revenue')}
         className={classnames(styles.button, { [styles.selected]: currentOption === 3 })}
-      >Payments</button>
+      >Revenue</button>
       <button
         onClick={() => navigate('/networks')}
         className={classnames(styles.button, { [styles.selected]: currentOption === 4 })}

@@ -8,7 +8,7 @@ import { Login } from 'pages/login';
 import { MediaKit } from 'pages/mediakit';
 import { MyAccount } from 'pages/myaccount';
 import { Networks } from 'pages/networks';
-import { Payments } from 'pages/payments';
+import { Revenue } from 'pages/revenue';
 
 export const Routes: RouteObject[] = [
   {
@@ -32,8 +32,8 @@ export const Routes: RouteObject[] = [
         element: <MyAccount />,
       },
       {
-        path: '/payments',
-        element: <Payments />,
+        path: '/revenue',
+        element: <Revenue />,
       },
       {
         path: '/networks',
