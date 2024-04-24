@@ -40,6 +40,10 @@ declare namespace LoaderDataType {
 }
 
 declare namespace Model {
+  interface Country {
+    name: string;
+  }
+
   interface SocialNetwork {
     userId: string;
     createdAt: string;
@@ -48,14 +52,20 @@ declare namespace Model {
   }
 
   interface User {
+    birthDate: string;
+    city: string;
+    country: string;
     id: string;
+    languages: string[];
     name: string;
+    state: string;
     networks: string[];
   }
 }
 
 declare namespace UseCommonData {
   interface Context {
+    country: Model.Country;
     portalConfiguration: Configuration.Root;
     user: Model.User;
   }

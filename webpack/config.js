@@ -80,6 +80,7 @@ module.exports = function(env, args) {
             }),
             new webpack.DefinePlugin({
                 'process.env.AUTHENTICATION_SERVICE_URL': JSON.stringify('http://localhost:3000'),
+                'process.env.COUNTRY_SERVICE_URL': JSON.stringify('https://restcountries.com/v3.1/alpha'),
                 'process.env.USER_DATA_SERVICE_URL': JSON.stringify('http://localhost:3000'),
             }),
         ],

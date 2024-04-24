@@ -11,25 +11,17 @@ import { Spinner } from 'components/Icon/Spinner';
 
 import { Menu } from './Menu';
 
-import { UseCommonDataContext } from 'hooks/useCommonData';
+import { UseCommonDataContext, useCommonDataDefaultValue } from 'hooks/useCommonData';
 
 import { isCurrentAuthorizationInvalid } from 'actions/authenticationActions';
+import { getCountryDataByCCA2Code } from 'actions/countryDataActions';
 import { getPortalConfigurations } from 'actions/portalConfigurationsActions';
 import { getUser } from 'actions/userDataActions';
 
 import * as styles from './index.scss';
 
 export const Layout: React.FC = () => {
-  const [context, setContext] = useState<UseCommonData.Context>({
-    portalConfiguration: {
-      socialNetworks: {},
-    },
-    user: {
-      id: '',
-      name: '',
-      networks: [],
-    },
-  });
+  const [context, setContext] = useState<UseCommonData.Context>(useCommonDataDefaultValue);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -50,17 +42,33 @@ export const Layout: React.FC = () => {
     if (isCurrentAuthorizationInvalid()) {
       navigate('/login');
     }
-    Promise.all([getUser(abortController.signal), getPortalConfigurations(abortController.signal)]).then(responses => {
-      if (responses.map(response => response.status).every(status => status < 300)) {
-        setContext({
-          portalConfiguration: responses[1].data!,
-          user: responses[0].data!,
-        });
-        setIsLoading(false);
-      }
-      else if (responses.map(response => response.error?.isAborted).some(isAborted => !isAborted)) {
-        const errors = responses.filter(response => response.error).map(response => response.error?.reason).join();
+    Promise.all([
+      getUser(abortController.signal),
+      getPortalConfigurations(abortController.signal)
+    ]).then(responses => {
+      if (responses.map(response => response.error?.isAborted).some(isAborted => isAborted === false)) {
+        const errors = responses.filter(response => response.error?.isAborted === false)
+          .map(response => response.error?.reason)
+          .join();
         window.alert(`The following error happened. Please try refreshing the page or each customer support.\n${errors}`);
+      }
+      else if (responses.map(response => response.status).every(status => status < 400)) {
+        getCountryDataByCCA2Code(responses[0].data?.country!, abortController.signal).then(countryResponse => {
+          if (countryResponse.error?.isAborted === false) {
+            window.alert(`The following error happened. Please try refreshing the page or each customer support.\n${countryResponse.error?.reason}`);
+          }
+          else if (countryResponse.status < 400) {
+            const country = countryResponse.data[0];
+            setContext({
+              country: {
+                name: countryResponse.data[0].name.common,
+              },
+              portalConfiguration: responses[1].data!,
+              user: responses[0].data!,
+            });
+            setIsLoading(false);
+          }
+        });
       }
     });
     return () => abortController.abort();
