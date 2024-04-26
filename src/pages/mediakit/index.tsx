@@ -8,7 +8,7 @@ import useCommonData from 'hooks/useCommonData';
 import * as styles from './index.scss';
 
 export const MediaKit: React.FC = () => {
-  const { country, user } = useCommonData();
+  const { user } = useCommonData();
 
   const userAge = useMemo(() => {
     const birthDateParts = user.birthDate.slice(0, 10).split('-');
@@ -16,12 +16,11 @@ export const MediaKit: React.FC = () => {
     return new Date(new Date().getTime() - birthDateObject.getTime()).getFullYear() - 1970;
   }, [user.birthDate]);
 
-  console.log(country);
   return (
     <div className={classnames(styles.root)}>
       <Card title={user.name}>
         <p><strong>Age:</strong> {userAge}</p>
-        <p><strong>Location:</strong> {user.city}, {user.state} - {country.name}</p>
+        <p><strong>Location:</strong> {user.city}, {user.state} - {user.country}</p>
       </Card>
       <Card title="Audience">
 
